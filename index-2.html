@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spider Dijital — Dijital Çözümler</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #080A0F;
+      --white: #F5F3EE;
+      --accent: #FF3D2E;
+      --muted: #9A9A8E;
+      --card: #10131A;
+      --border: rgba(255,255,255,0.07);
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--black); color: var(--white); font-family: 'DM Sans', sans-serif; font-weight: 300; overflow-x: hidden; }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 22px 60px; z-index: 100;
+      background: rgba(8,10,15,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.3rem;
+      letter-spacing: -0.02em; display: flex; align-items: center; gap: 10px;
+      text-decoration: none; color: var(--white);
+    }
+    .logo-icon {
+      width: 34px; height: 34px; background: var(--accent); border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; font-weight: 900; color: white;
+    }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--white); }
+    .nav-cta {
+      background: var(--accent); color: white; border: none;
+      padding: 11px 26px; border-radius: 100px;
+      font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 500;
+      cursor: pointer; transition: transform 0.2s, opacity 0.2s;
+      text-decoration: none;
+    }
+    .nav-cta:hover { opacity: 0.85; transform: scale(1.04); }
+
+    .hero {
+      min-height: 100vh; display: flex; flex-direction: column;
+      justify-content: center; padding: 0 60px;
+      position: relative; overflow: hidden;
+    }
+    .hero-orb {
+      position: absolute; border-radius: 50%; filter: blur(130px); pointer-events: none;
+    }
+    .orb1 { width: 650px; height: 650px; background: rgba(255,61,46,0.13); top: -150px; right: -100px; animation: drift 9s ease-in-out infinite alternate; }
+    .orb2 { width: 400px; height: 400px; background: rgba(255,140,66,0.07); bottom: 50px; left: 100px; animation: drift 12s ease-in-out infinite alternate-reverse; }
+    @keyframes drift { from { transform: translate(0,0); } to { transform: translate(-50px, 40px); } }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,61,46,0.1); border: 1px solid rgba(255,61,46,0.25);
+      color: var(--accent); font-size: 0.78rem; font-weight: 500;
+      padding: 7px 16px; border-radius: 100px; margin-bottom: 36px;
+      width: fit-content; letter-spacing: 0.06em; text-transform: uppercase;
+      animation: fadeUp 0.8s ease both;
+    }
+    .badge-dot { width: 7px; height: 7px; background: var(--accent); border-radius: 50%; animation: blink 1.5s infinite; }
+    @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.2;} }
+
+    .hero-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(3.2rem, 7.5vw, 7rem);
+      font-weight: 800; line-height: 0.95; letter-spacing: -0.04em;
+      max-width: 800px; animation: fadeUp 0.8s 0.15s ease both;
+    }
+    .hero-title .red { color: var(--accent); }
+
+    .hero-desc {
+      margin-top: 30px; font-size: 1.05rem; line-height: 1.75;
+      color: var(--muted); max-width: 460px;
+      animation: fadeUp 0.8s 0.3s ease both;
+    }
+    .hero-actions {
+      margin-top: 44px; display: flex; gap: 16px; align-items: center;
+      animation: fadeUp 0.8s 0.45s ease both;
+    }
+    .btn-primary {
+      background: var(--accent); color: white; border: none;
+      padding: 15px 34px; border-radius: 100px;
+      font-family: 'DM Sans', sans-serif; font-size: 0.95rem; font-weight: 500;
+      cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none; box-shadow: 0 0 40px rgba(255,61,46,0.3);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 50px rgba(255,61,46,0.45); }
+    .btn-outline {
+      color: var(--white); text-decoration: none; font-size: 0.92rem;
+      display: flex; align-items: center; gap: 8px;
+      border: 1px solid var(--border); padding: 15px 28px; border-radius: 100px;
+      transition: border-color 0.2s;
+    }
+    .btn-outline:hover { border-color: rgba(255,255,255,0.3); }
+
+    .hero-stats {
+      position: absolute; right: 60px; bottom: 50px;
+      display: flex; gap: 50px;
+      animation: fadeUp 0.8s 0.6s ease both;
+    }
+    .stat-num { font-family: 'Syne', sans-serif; font-size: 2.4rem; font-weight: 800; line-height: 1; }
+    .stat-num span { color: var(--accent); }
+    .stat-label { font-size: 0.78rem; color: var(--muted); margin-top: 5px; text-transform: uppercase; letter-spacing: 0.05em; }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+
+    .ticker { padding: 22px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); overflow: hidden; }
+    .ticker-track { display: flex; gap: 56px; white-space: nowrap; animation: ticker 22s linear infinite; }
+    .ticker-track span { font-family: 'Syne', sans-serif; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); flex-shrink: 0; }
+    .ticker-track .sep { color: var(--accent); }
+    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    .services { padding: 110px 60px; }
+    .section-label { font-size: 0.74rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 18px; display: flex; align-items: center; gap: 12px; }
+    .section-label::after { content: ''; width: 36px; height: 1px; background: var(--accent); opacity: 0.5; }
+    .section-title { font-family: 'Syne', sans-serif; font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; max-width: 560px; }
+
+    .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin-top: 64px; border: 1px solid var(--border); }
+    .service-card {
+      background: var(--card); padding: 44px 36px;
+      border-right: 1px solid var(--border);
+      position: relative; overflow: hidden; transition: background 0.3s;
+    }
+    .service-card:nth-child(3n) { border-right: none; }
+    .service-card:hover { background: #141820; }
+    .service-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease; }
+    .service-card:hover::after { transform: scaleX(1); }
+    .s-icon { width: 50px; height: 50px; background: rgba(255,61,46,0.1); border: 1px solid rgba(255,61,46,0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.35rem; margin-bottom: 26px; }
+    .s-num { position: absolute; top: 36px; right: 36px; font-family: 'Syne', sans-serif; font-size: 0.7rem; font-weight: 700; color: rgba(255,255,255,0.08); letter-spacing: 0.1em; }
+    .s-name { font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 12px; }
+    .s-desc { color: var(--muted); font-size: 0.88rem; line-height: 1.75; }
+    .s-arrow { display: inline-block; margin-top: 28px; color: var(--accent); font-size: 1.1rem; transition: transform 0.25s; }
+    .service-card:hover .s-arrow { transform: translateX(6px); }
+
+    .why { padding: 110px 60px; background: var(--card); }
+    .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; margin-top: 64px; }
+    .why-visual { aspect-ratio: 1; background: var(--black); border: 1px solid var(--border); border-radius: 24px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+    .why-visual-inner { font-family: 'Syne', sans-serif; font-size: 8rem; font-weight: 800; color: rgba(255,61,46,0.07); line-height: 1; user-select: none; }
+    .why-visual-badge { position: absolute; bottom: 28px; left: 28px; background: var(--accent); color: white; padding: 14px 22px; border-radius: 14px; }
+    .why-visual-badge strong { font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 800; display: block; }
+    .why-visual-badge span { font-size: 0.8rem; opacity: 0.85; }
+    .why-items { display: flex; flex-direction: column; }
+    .why-item { padding: 28px 0; border-bottom: 1px solid var(--border); display: flex; gap: 20px; align-items: flex-start; transition: padding-left 0.3s; }
+    .why-item:hover { padding-left: 10px; }
+    .why-check { color: var(--accent); font-size: 1rem; flex-shrink: 0; padding-top: 2px; }
+    .why-item h3 { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
+    .why-item p { color: var(--muted); font-size: 0.87rem; line-height: 1.65; }
+
+    .contact { padding: 110px 60px; }
+    .contact-inner {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 28px; padding: 80px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+      align-items: center; position: relative; overflow: hidden;
+    }
+    .contact-inner::before { content: ''; position: absolute; top: -150px; right: -150px; width: 400px; height: 400px; background: rgba(255,61,46,0.08); border-radius: 50%; filter: blur(80px); pointer-events: none; }
+    .contact-title { font-family: 'Syne', sans-serif; font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 20px; }
+    .contact-desc { color: var(--muted); font-size: 0.95rem; line-height: 1.7; margin-bottom: 36px; }
+    .contact-info { display: flex; flex-direction: column; gap: 16px; }
+    .contact-info a { display: flex; align-items: center; gap: 12px; color: var(--white); text-decoration: none; font-size: 0.95rem; transition: color 0.2s; }
+    .contact-info a:hover { color: var(--accent); }
+    .ci { color: var(--accent); width: 20px; }
+    .contact-form { display: flex; flex-direction: column; gap: 14px; }
+    .contact-form input, .contact-form textarea { background: var(--black); border: 1px solid var(--border); border-radius: 12px; padding: 16px 20px; color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 0.9rem; outline: none; transition: border-color 0.2s; resize: none; }
+    .contact-form input::placeholder, .contact-form textarea::placeholder { color: var(--muted); }
+    .contact-form input:focus, .contact-form textarea:focus { border-color: rgba(255,61,46,0.4); }
+    .contact-form textarea { height: 120px; }
+    .form-btn { background: var(--accent); color: white; border: none; padding: 16px; border-radius: 12px; font-family: 'DM Sans', sans-serif; font-size: 0.95rem; font-weight: 500; cursor: pointer; transition: opacity 0.2s, transform 0.2s; }
+    .form-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+
+    footer { padding: 40px 60px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+    .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.1rem; display: flex; align-items: center; gap: 8px; }
+    .footer-copy { color: var(--muted); font-size: 0.82rem; }
+    .footer-links { display: flex; gap: 28px; }
+    .footer-links a { color: var(--muted); text-decoration: none; font-size: 0.82rem; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--white); }
+
+    @media (max-width: 900px) {
+      nav { padding: 20px 24px; }
+      .nav-links { display: none; }
+      .hero { padding: 110px 24px 80px; }
+      .hero-stats { position: static; margin-top: 48px; gap: 32px; }
+      .services, .why, .contact { padding: 80px 24px; }
+      .services-grid { grid-template-columns: 1fr; }
+      .service-card { border-right: none; border-bottom: 1px solid var(--border); }
+      .why-grid { grid-template-columns: 1fr; gap: 40px; }
+      .why-visual { display: none; }
+      .contact-inner { grid-template-columns: 1fr; padding: 36px 24px; gap: 40px; }
+      footer { flex-direction: column; gap: 20px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="#" class="nav-logo">
+      <div class="logo-icon">S</div>
+      Spider <span style="color:var(--accent);margin-left:4px;">Dijital</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#hizmetler">Hizmetler</a></li>
+      <li><a href="#neden">Neden Biz</a></li>
+      <li><a href="#iletisim">İletişim</a></li>
+    </ul>
+    <a href="#iletisim" class="nav-cta">Teklif Al</a>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-orb orb1"></div>
+    <div class="hero-orb orb2"></div>
+    <div class="hero-badge"><div class="badge-dot"></div> Dijital Ajans · Türkiye</div>
+    <h1 class="hero-title">Markanızı<br><span class="red">Dijitalde</span><br>Büyütüyoruz</h1>
+    <p class="hero-desc">Web tasarım, sosyal medya yönetimi ve dijital pazarlama alanında işletmenizi bir üst seviyeye taşıyan çözümler sunuyoruz.</p>
+    <div class="hero-actions">
+      <a href="#iletisim" class="btn-primary">Ücretsiz Teklif Al</a>
+      <a href="#hizmetler" class="btn-outline">Hizmetlerimiz →</a>
+    </div>
+    <div class="hero-stats">
+      <div><div class="stat-num">50<span>+</span></div><div class="stat-label">Tamamlanan Proje</div></div>
+      <div><div class="stat-num">3<span>yıl</span></div><div class="stat-label">Deneyim</div></div>
+      <div><div class="stat-num">98<span>%</span></div><div class="stat-label">Müşteri Memnuniyeti</div></div>
+    </div>
+  </section>
+
+  <div class="ticker">
+    <div class="ticker-track">
+      <span>Web Tasarım</span><span class="sep">✦</span><span>Sosyal Medya</span><span class="sep">✦</span><span>SEO</span><span class="sep">✦</span><span>Google Ads</span><span class="sep">✦</span><span>Marka Kimliği</span><span class="sep">✦</span><span>E-Ticaret</span><span class="sep">✦</span><span>İçerik Üretimi</span><span class="sep">✦</span>
+      <span>Web Tasarım</span><span class="sep">✦</span><span>Sosyal Medya</span><span class="sep">✦</span><span>SEO</span><span class="sep">✦</span><span>Google Ads</span><span class="sep">✦</span><span>Marka Kimliği</span><span class="sep">✦</span><span>E-Ticaret</span><span class="sep">✦</span><span>İçerik Üretimi</span><span class="sep">✦</span>
+    </div>
+  </div>
+
+  <section class="services" id="hizmetler">
+    <div class="section-label">Hizmetlerimiz</div>
+    <h2 class="section-title">Dijital Dünyada İhtiyacınız Olan Her Şey</h2>
+    <div class="services-grid">
+      <div class="service-card"><div class="s-num">01</div><div class="s-icon">🌐</div><div class="s-name">Web Tasarım & Geliştirme</div><p class="s-desc">Modern, hızlı ve mobil uyumlu web siteleri. İşletmenizi yansıtan özgün tasarımlar.</p><span class="s-arrow">→</span></div>
+      <div class="service-card"><div class="s-num">02</div><div class="s-icon">📱</div><div class="s-name">Sosyal Medya Yönetimi</div><p class="s-desc">Instagram, Facebook ve TikTok'ta markanızı büyüten stratejik içerik yönetimi.</p><span class="s-arrow">→</span></div>
+      <div class="service-card"><div class="s-num">03</div><div class="s-icon">🔍</div><div class="s-name">SEO & Google Ads</div><p class="s-desc">Google'da üst sıralara çıkın. Ölçülebilir sonuçlar, gerçek büyüme.</p><span class="s-arrow">→</span></div>
+      <div class="service-card"><div class="s-num">04</div><div class="s-icon">🛒</div><div class="s-name">E-Ticaret Çözümleri</div><p class="s-desc">Satışlarınızı artıran, kullanımı kolay e-ticaret platformları kuruyoruz.</p><span class="s-arrow">→</span></div>
+      <div class="service-card"><div class="s-num">05</div><div class="s-icon">🎨</div><div class="s-name">Marka Kimliği & Logo</div><p class="s-desc">Akılda kalan logolar ve güçlü marka kimliği tasarımı.</p><span class="s-arrow">→</span></div>
+      <div class="service-card"><div class="s-num">06</div><div class="s-icon">📊</div><div class="s-name">Dijital Reklam</div><p class="s-desc">Meta, Google ve diğer platformlarda hedefli reklam kampanyaları.</p><span class="s-arrow">→</span></div>
+    </div>
+  </section>
+
+  <section class="why" id="neden">
+    <div class="section-label">Neden Spider Dijital</div>
+    <h2 class="section-title">Farkımızı Hissedin</h2>
+    <div class="why-grid">
+      <div class="why-visual">
+        <div class="why-visual-inner">SD</div>
+        <div class="why-visual-badge"><strong>50+</strong><span>Başarılı Proje</span></div>
+      </div>
+      <div class="why-items">
+        <div class="why-item"><div class="why-check">✦</div><div><h3>Sonuç Odaklı Yaklaşım</h3><p>Sadece güzel görünen değil, gerçekten satış getiren ve marka değeri katan çalışmalar üretiyoruz.</p></div></div>
+        <div class="why-item"><div class="why-check">✦</div><div><h3>Hızlı Teslimat</h3><p>Zamanınızın değerini biliyoruz. Projelerinizi belirlenen sürede eksiksiz teslim ediyoruz.</p></div></div>
+        <div class="why-item"><div class="why-check">✦</div><div><h3>7/24 Destek</h3><p>Proje sonrasında da yanınızdayız. Teknik destek ve güncelleme hizmetlerimizle her zaman ulaşılabiliririz.</p></div></div>
+        <div class="why-item"><div class="why-check">✦</div><div><h3>Şeffaf Fiyatlandırma</h3><p>Gizli maliyet yok. Ne ödeyeceğinizi baştan bilir, bütçenizi rahat planlarsınız.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="iletisim">
+    <div class="contact-inner">
+      <div>
+        <div class="section-label">İletişim</div>
+        <h2 class="contact-title">Projenizi Birlikte Hayata Geçirelim</h2>
+        <p class="contact-desc">Ücretsiz danışmanlık için hemen ulaşın. Size özel çözümler sunalım.</p>
+        <div class="contact-info">
+          <a href="mailto:info@spiderdigitalll.com"><span class="ci">✉</span> info@spiderdigitalll.com</a>
+          <a href="tel:+905000000000"><span class="ci">✆</span> +90 500 000 00 00</a>
+          <a href="#"><span class="ci">📍</span> Türkiye</a>
+        </div>
+      </div>
+      <div class="contact-form">
+        <input type="text" placeholder="Adınız Soyadınız" />
+        <input type="email" placeholder="E-posta Adresiniz" />
+        <input type="text" placeholder="Konu" />
+        <textarea placeholder="Mesajınız..."></textarea>
+        <button class="form-btn">Mesaj Gönder →</button>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-logo"><div class="logo-icon" style="width:28px;height:28px;font-size:0.85rem;">S</div> Spider Dijital</div>
+    <div class="footer-copy">© 2025 Spider Dijital. Tüm hakları saklıdır.</div>
+    <div class="footer-links"><a href="#hizmetler">Hizmetler</a><a href="#neden">Hakkımızda</a><a href="#iletisim">İletişim</a></div>
+  </footer>
+
+</body>
+</html>
